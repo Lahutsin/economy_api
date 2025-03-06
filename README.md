@@ -1,6 +1,7 @@
 # economy_api
 economy_api > IMF, World Bank, Yahoo Finance
 
+```
 /economy_project
     ├── economy_api/
     │   ├── main.py            # main FastAPI
@@ -15,6 +16,7 @@ economy_api > IMF, World Bank, Yahoo Finance
     │   └── Dockerfile         # Dockerfile for font-end-container
     ├── docker-compose.yml     # Docker Compose main file
     ├── .env                   # enfirovements (optional)
+```
 
 TOOLS:
 
