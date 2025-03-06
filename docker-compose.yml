@@ -1,0 +1,59 @@
+services:
+  api:
+    build: ./backend
+    container_name: backend
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/economy_db
+      - REDIS_HOST=redis
+    volumes:
+      - ./backend:/app
+    networks:
+      - economy_network
+
+  db:
+    image: postgres:13
+    container_name: economy_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: economy_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - economy_network
+
+  redis:
+    image: redis:6
+    container_name: economy_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - economy_network
+
+  frontend:
+    build: ./frontend
+    container_name: economy_frontend
+    command: ["python", "app.py"]
+    ports:
+      - "8050:8050"
+    depends_on:
+      - api
+    environment:
+      - API_URL=http://api:8000
+    networks:
+      - economy_network
+
+volumes:
+  db_data:
+
+networks:
+  economy_network:
+    driver: bridge
