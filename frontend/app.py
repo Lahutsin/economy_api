@@ -3,13 +3,10 @@ from dash import dcc, html
 import os
 import requests
 
-# Получаем переменную окружения для API
-API_URL = os.getenv("API_URL", "http://api:8000")  # "http://api:8000" - значение по умолчанию
+API_URL = os.getenv("API_URL", "http://api:8000")
 
-# Инициализация Dash приложения
 app = dash.Dash(__name__)
 
-# Основной макет
 app.layout = html.Div([
     dcc.Input(id='country-input', type='text', placeholder='Enter Country'),
     html.Div(id='output')
@@ -27,7 +24,6 @@ def update_output(country):
             html.H3(f"Economy Data for {country}"),
             html.P(f"IMF Data: {data['IMF']}"),
             html.P(f"World Bank Data: {data['World Bank']}"),
-            html.P(f"Yahoo Finance Data: {data['Yahoo Finance']}")
         ])
     return "Enter a country to get economy data"
 
